@@ -8,6 +8,47 @@ App = React.createClass({
 
         }
     },
+
+    handleSearch: function(searchingText){
+        this.setState({
+        loading: true
+        });
+
+this.getGif(searchingText, function(gif){
+        
+        this.setState({
+            loading: false,
+            gif: gif,
+            searchingText: searchingText
+
+        });
+    }.bind(this))
+
+    },
+
+getGif: function(searchingText, callback) {  // 1.
+    var GIPHY_PUB_KEY = 'qQteLldC6e5Gu8eePBMBx8cQEyvMK32B';
+    var GIPHY_API_URL  = 'http://api.giphy.com';
+   
+
+    var url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText;  // 2.
+    var xhr = new XMLHttpRequest();  // 3.
+    xhr.open('GET', url);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            console.log(xhr.response);
+            var data = JSON.parse(xhr.responseText).data; // 4.
+
+            var gif = {  // 5.
+                url: data.fixed_width_downsampled_url,
+                sourceUrl: data.url
+            };
+            callback(gif);  // 6.
+        }
+    };
+    xhr.send();
+},
+
     
     render: function(){
        
