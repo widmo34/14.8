@@ -10,12 +10,15 @@ App = React.createClass({
     },
 
     handleSearch: function(searchingText){
+        
         this.setState({
         loading: true
         })
 
+        console.log(searchingText)
         this.getGif(searchingText)
-        .then(gif) => {
+        .then(function(gif) {
+            console.log(gif)
          
             this.setState({
                 loading: false,
@@ -23,20 +26,23 @@ App = React.createClass({
                 searchingText: searchingText
             })
         
-        }.bind(this)
+        }.bind(this))
     
-    .catch(error) => {
-        console.log(`something went wrong ${error} `)
-    }
-},
+    .catch(function(error){
+        console.log('something went wrong' + error)
+    })
+},   
+
 
      
 getGif: function(searchingText) {  // 1.
-    
+    console.log(searchingText);
 // here I start with a promise 
     return new Promise(
         function(resolve, reject){
-             
+            
+           
+
             var GIPHY_PUB_KEY = 'qQteLldC6e5Gu8eePBMBx8cQEyvMK32B';
             var GIPHY_API_URL  = 'http://api.giphy.com';
         
@@ -53,16 +59,15 @@ getGif: function(searchingText) {  // 1.
                         url: data.fixed_width_downsampled_url,
                         sourceUrl: data.url
                     };
-                };
-            xhr.send();
+                    resolve(gif);  
+                }else{
+                    reject(xhr.error); 
+                }
+           
 
             }
         // here is code with promises
-            if(gif){
-                resolve(gif);
-            }else{
-                reject(xhr.error);
-            }    
+        xhr.send();
         
         }
     )    
