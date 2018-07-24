@@ -5,7 +5,8 @@
   "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "http-server -c-1"
+    "start": "http-server -c-1",
+    "babel": "babel App.js --watch --out file app-compiled.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,10 @@
   "homepage": "https://github.com/widmo34/14.8#readme",
   "devDependencies": {
     "http-server": "^0.11.1"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-latest": "^6.24.1",
+    "save-dev": "^2.0.0"
   }
 }
